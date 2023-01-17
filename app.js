@@ -1,5 +1,5 @@
 const express = require('express');
-const {getTopics,} = require('./controllers');
+const {getTopics,getArticles,getArticleById,getCommentByArticleId} = require('./controllers');
 
 
 const app = express();
@@ -7,13 +7,10 @@ const app = express();
 app.use(express.json());
 
 app.get("/api/topics",getTopics);
+app.get("/api/articles",getArticles);
+app.get("/api/articles/:article_id",getArticleById)
+app.get("/api/articles/:article_id/comments",getCommentByArticleId)
 
 
-
-
-
-
-
-app.listen(8080, () => {});
 
 module.exports = app;
