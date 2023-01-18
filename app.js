@@ -11,4 +11,7 @@ app.use(express.json());
        //  -----    3    ------
 app.get("/api/topics",getTopics);
 
+       //  -----    4    ------
+app.get("/api/articles",getArticles);
+
 module.exports = app;
