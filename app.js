@@ -1,19 +1,20 @@
 const express = require('express');
-const {getTopics,} = require('./controllers');
+const {getTopics,getArticles,getArticleById,getCommentsArticle,
+       postCommentByArticleId,
+} = require('./controllers');
 
 
 const app = express();
 
 app.use(express.json());
-
+// ==================   GET   ==================
+       //  -----    3    ------
 app.get("/api/topics",getTopics);
 
+       //  -----    4    ------
+app.get("/api/articles",getArticles);
 
-
-
-
-
-
-app.listen(8080, () => {});
+       //  -----    5    ------
+app.get("/api/articles/:article_id",getArticleById)
 
 module.exports = app;
