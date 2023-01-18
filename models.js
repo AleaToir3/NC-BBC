@@ -32,11 +32,19 @@ const dataGetArticles = ()=>{
 const dataGetArticleById = (articleId) => {
 
    // const query = `SELECT body,author as username FROM articles WHERE article_id=$1;`
-   const query = `SELECT * FROM comments WHERE article_id=$1;`
-   return db.query(query,[articleId]);
+   const query = `SELECT * FROM articles WHERE article_id=$1;`
+   return db.query(query,[articleId]).then((article)=>{
+      return article.rows
+   });
 }
 
-// author VARCHAR REFERENCES users(username)
+const dataCommentsByArticleId = (articleId)=>{
+   const query = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
+   return db.query(query,[articleId]).then((commentsByArticle)=>{
+      return commentsByArticle.rows
+   });
+}
+
 
 
 
@@ -48,7 +56,6 @@ const dataGetArticleById = (articleId) => {
 
 module.exports = {
     dataGetTopics,
-    dataGetArticles,
-    dataGetArticleById,
+   
  } 
 
