@@ -1,14 +1,19 @@
-const {dataGetTopics} = require("./models")
+const {dataGetTopics,dataGetArticles} = require("./models")
 
-
+// TASK 3
 const getTopics = (req,res)=>{
-
-    return dataGetTopics(req,res).then(
-        (datatopics) => {
-            res.status(200).send(datatopics)
-        }
-    )
-
+ return dataGetTopics(req,res).then(
+     (datatopics) => {
+         res.status(200).send({topics: datatopics})
+     }
+ )
 ;}
-
-module.exports = {getTopics}
+// TASK 4
+const getArticles = (req,res)=>{
+ return dataGetArticles(req,res).then(
+     (dataArticles)=>{
+         res.status(200).send({articles: dataArticles})
+     }
+ )
+}
+module.exports = {getTopics,getArticles}
