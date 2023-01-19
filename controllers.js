@@ -17,3 +17,4 @@ const getArticles = ()=>{
  )
 }
 module.exports = {getTopics,getArticles}
+

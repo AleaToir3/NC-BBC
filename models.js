@@ -8,8 +8,7 @@ const dataGetTopics = () =>{
 
 const dataGetArticles = ()=>{
    return db.query(`
-   SELECT 
-      articles.*
+   SELECT articles.*,   
    COUNT(comments.article_id) AS comment_count
    FROM articles 
    LEFT JOIN comments ON articles.article_id = comments.article_id
@@ -22,8 +21,17 @@ const dataGetArticles = ()=>{
    )
 }
 
+const dataGetArticleById = (articleId) => {
+
+   const query = `SELECT * FROM articles WHERE article_id=$1;`
+   return db.query(query,[articleId]).then((article)=>{
+      return article.rows
+   });
+}
+
 module.exports = {
    dataGetTopics,
    dataGetArticles,
+   dataGetArticleById
 } 
 
