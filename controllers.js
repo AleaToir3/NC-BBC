@@ -1,4 +1,4 @@
-const {dataGetTopics,dataGetArticles} = require("./models")
+const {dataGetTopics,dataGetArticles,dataGetArticleById} = require("./models")
 
 // TASK 3
 const getTopics = (req,res)=>{
@@ -11,10 +11,22 @@ const getTopics = (req,res)=>{
 // TASK 4
 const getArticles = (req,res)=>{
  return dataGetArticles().then(
-     (dataArticles)=>{
+     (dataArticles) => {
+      
          res.status(200).send({articles: dataArticles})
      }
  )
 }
-module.exports = {getTopics,getArticles}
+// TASK 5
+const getArticleById = (req,res,next)=>{
+ const  articleId = req.params.article_id 
+ return dataGetArticleById(articleId).then(
+     (article) => {
+         res.status(200).send({articleId: article})
+     }
+ ).catch((err)=>{
+    next(err)
+ })
+}
 
+module.exports = {getTopics,getArticles,getArticleById }

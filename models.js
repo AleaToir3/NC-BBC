@@ -25,13 +25,14 @@ const dataGetArticleById = (articleId) => {
 
    const query = `SELECT * FROM articles WHERE article_id=$1;`
    return db.query(query,[articleId]).then((article)=>{
+
       return article.rows
    });
 }
 
+
 module.exports = {
    dataGetTopics,
    dataGetArticles,
-   dataGetArticleById
+   dataGetArticleById,
 } 
-

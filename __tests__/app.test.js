@@ -72,3 +72,47 @@ describe("Task-4 GET:/api/articles", () => {
       });
   });
 });
+
+      //  -----    5    ------
+describe("Task-5 GET:/api/articles/id", () => {
+
+  test("responds with status 200", () => {
+    return request(app).get("/api/articles/3").expect(200)
+  });
+
+  test("Length of my articles should be greather then 0", () => {
+    return request(app)
+      .get("/api/articles/3")
+      .then((res) => {
+        const article = res.body.articleId;
+        expect(article).not.toHaveLength(0);
+      });
+  });
+
+    test(`Each comments should have :
+          - author
+          - title
+          - article_id
+          - body
+          - topic
+          - created_at
+          - votes
+          - article_img_url
+          `, () => {
+    return request(app)
+      .get("/api/articles/3")
+      .then((res) => {
+        const article = res.body.articleId[0];
+          expect(article).toHaveProperty("author",expect.any(String));
+          expect(article).toHaveProperty("title",expect.any(String));
+          expect(article).toHaveProperty("article_id",expect.any(Number));
+          expect(article).toHaveProperty("body",expect.any(String));
+          expect(article).toHaveProperty("topic",expect.any(String));
+          expect(article).toHaveProperty("article_id",expect.any(Number));
+          expect(article).toHaveProperty("created_at",expect.any(String));
+          expect(article).toHaveProperty("votes",expect.any(Number));
+          expect(article).toHaveProperty("article_img_url",expect.any(String));
+        });
+  });
+});
+    
