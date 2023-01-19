@@ -2,8 +2,8 @@ const {dataGetTopics,dataGetArticles,dataGetArticleById,dataCommentsByArticleId,
     dataPostCommentByArticleId} = require("./models")
 
 // TASK 3
-const getTopics = ()=>{
- return dataGetTopics(req,res).then(
+const getTopics = (req,res)=>{
+ return dataGetTopics().then(
      (datatopics) => {
          res.status(200).send({topics: datatopics})
      }
