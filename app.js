@@ -1,6 +1,5 @@
 const express = require('express');
-const {getTopics,getArticles,getArticleById,getCommentsArticle,
-       postCommentByArticleId,
+const {getTopics,getArticles,getArticleById,
 } = require('./controllers');
 
 
