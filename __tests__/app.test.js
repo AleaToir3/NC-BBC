@@ -102,20 +102,17 @@ describe("Task-5 GET:/api/articles/id", () => {
     return request(app)
       .get("/api/articles/3")
       .then((res) => {
-        const article = res.body.articleId;
-        expect(article.length > 0).toBe(true);
-        article.forEach((comments) => {
-          expect(comments).toHaveProperty("author");
-          expect(comments).toHaveProperty("title");
-          expect(comments).toHaveProperty("article_id");
-          expect(comments).toHaveProperty("body");
-          expect(comments).toHaveProperty("topic");
-          expect(comments).toHaveProperty("article_id");
-          expect(comments).toHaveProperty("created_at");
-          expect(comments).toHaveProperty("votes");
-          expect(comments).toHaveProperty("article_img_url");
+        const article = res.body.articleId[0];
+          expect(article).toHaveProperty("author",expect.any(String));
+          expect(article).toHaveProperty("title",expect.any(String));
+          expect(article).toHaveProperty("article_id",expect.any(Number));
+          expect(article).toHaveProperty("body",expect.any(String));
+          expect(article).toHaveProperty("topic",expect.any(String));
+          expect(article).toHaveProperty("article_id",expect.any(Number));
+          expect(article).toHaveProperty("created_at",expect.any(String));
+          expect(article).toHaveProperty("votes",expect.any(Number));
+          expect(article).toHaveProperty("article_img_url",expect.any(String));
         });
-      });
   });
 });
     

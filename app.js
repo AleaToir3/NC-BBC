@@ -15,5 +15,8 @@ app.get("/api/articles",getArticles);
 
        //  -----    5    ------
 app.get("/api/articles/:article_id",getArticleById)
+app.use((err,req,res,next) => {
+       console.log("👉  file: app.js:20  err", err);
+})
 
 module.exports = app;
