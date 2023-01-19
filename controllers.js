@@ -1,7 +1,7 @@
 const {dataGetTopics,dataGetArticles} = require("./models")
 
 // TASK 3
-const getTopics = (req,res)=>{
+const getTopics = ()=>{
  return dataGetTopics(req,res).then(
      (datatopics) => {
          res.status(200).send({topics: datatopics})
@@ -9,7 +9,7 @@ const getTopics = (req,res)=>{
  )
 ;}
 // TASK 4
-const getArticles = (req,res)=>{
+const getArticles = ()=>{
  return dataGetArticles(req,res).then(
      (dataArticles)=>{
          res.status(200).send({articles: dataArticles})
