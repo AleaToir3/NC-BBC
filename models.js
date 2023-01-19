@@ -9,13 +9,7 @@ const dataGetTopics = () =>{
 const dataGetArticles = ()=>{
    return db.query(`
    SELECT 
-      articles.author, 
-      articles.title, 
-      articles.article_id, 
-      articles.topic, 
-      articles.votes,
-      articles.created_at,
-      articles.article_img_url,
+      articles.*
    COUNT(comments.article_id) AS comment_count
    FROM articles 
    LEFT JOIN comments ON articles.article_id = comments.article_id
