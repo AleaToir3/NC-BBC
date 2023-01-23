@@ -6,3 +6,6 @@
 2. in the your Terminal write npm i
 3. You can initialise the database with `npm setup-dbs`
 4. you can start the project with `npm  seed`
+
+
+

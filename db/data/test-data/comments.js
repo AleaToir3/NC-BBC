@@ -64,14 +64,14 @@ module.exports = [
   },
   {
     body: "git push origin master",
-    votes: 0,
+    votes: 5,
     author: "icellusedkars",
     article_id: 3,
     created_at: 1592641440000,
   },
   {
     body: "Ambidextrous marsupial",
-    votes: 0,
+    votes: 2,
     author: "icellusedkars",
     article_id: 3,
     created_at: 1600560600000,
