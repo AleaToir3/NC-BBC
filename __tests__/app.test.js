@@ -85,7 +85,6 @@ describe("Task-4 GET:/api/articles", () => {
       .get("/api/articles?sort_by=article_id&order=desc")
       .then((res) => {
         const articles = res.body.articles;
-        console.log("🚨🔥  file: app.test.js:88", articles);
 
         expect(articles.length > 0).toBe(true);
         expect(articles[0].article_id).toBe(12);
