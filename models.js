@@ -6,30 +6,27 @@ const dataGetTopics = () =>{
  })
 }
 
-////🚨🚨🚨🚨
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
 const dataGetArticles = (req,res) => {
-   let column = ["article_id","title","topic","author","body","created_at","votes","article_img_url"];
-   let orderBy = "DESC";
-   
-   filterColun = column.filter((e)=>{e==req.query.sort_by})
-   
-   if(filterColun.length > 0){
-      column = "articles."+filterColun[0]
-   }else column = "articles.created_at"
-   
-   const lol = "articles.article_id"
-   req.query.orderBy == "ASC" ? req.query.orderBy = "ASC" :  req.query.orderBy = "DESC"
-   console.log("🚨🔥  file: models.js:15  dataGetArticles  orderBy", orderBy);
-   console.log("🚨🔥  file: models.js:12  dataGetArticles  column", column);
-   query =  `SELECT articles.*,
+   const column = ["article_id","title","topic","author","body","created_at","votes","article_img_url"];
+   let querySortBy = req.query.sort_by
+   let queryOrderBy = req.query.order;
+
+   querySortBy = column.filter((e)=> e == querySortBy)
+
+   querySortBy.length == 0 ? querySortBy = "created_at" : querySortBy = querySortBy[0]
+   queryOrderBy == "ASC" ? queryOrderBy = "ASC" : queryOrderBy = "DESC"
+
+   const query =  `SELECT articles.*,
             COUNT(comments.article_id) AS comment_count
             FROM articles 
             LEFT JOIN comments ON articles.article_id = comments.article_id
-            GROUP BY $1
-            ORDER BY articles.article_id DESC;
+            GROUP BY articles.article_id
+            ORDER BY articles.${querySortBy} ${queryOrderBy};
             `
-    return db.query(query,[lol]).then((articles) => {
-      console.log("🚨🔥  file: models.js:23:::", articles);
+    return db.query(query).then((articles) => {
           return articles.rows
       })
 }
@@ -42,7 +39,6 @@ LEFT JOIN comments
 ON articles.article_id = comments.article_id
 WHERE articles.article_id = $1
 GROUP BY articles.article_id;`
-
    return db.query(query,[articleId])
    .then((article) => {
         	return article.rows
@@ -59,8 +55,7 @@ const dataCommentsByArticleId = (articleId)=>{
 const dataPostCommentByArticleId = (params) => {
    const query = `INSERT INTO comments(body,article_id,author) 
                   VALUES ($1,$2,$3) 
-                  RETURNING *;
-                  
+                  RETURNING *;                  
                   `
    return db.query(query,[params.body,params.article_id,params.author]).then((res) => {      
       	return res.rows
@@ -76,16 +71,13 @@ if(!patchVotes){
          SET votes = votes + $1
          WHERE article_id = $2  RETURNING *`;
    return db.query(query,[patchVotes,params]).then((res) => {
-
       return res.rows[0]
-   	
-   })
+      })
 }
 
 const dataGetusers = () =>{
    return db.query(`SELECT * FROM users`).then((users) => {
       return users.rows
-
    })
   }
 

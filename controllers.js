@@ -15,11 +15,10 @@ const getTopics = (req, res) => {
   });
 };
 // TASK 4
-//🚨🚨🚨🚨
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
 const getArticles = (req, res) => {
-    // console.log("🚨🔥controllers.js:20  req", req.query);
-
-    console.log("BONJOUR CONTROLLER");
   return dataGetArticles(req, res).then((dataArticles) => {
     res.status(200).send({ articles: dataArticles });
   });
