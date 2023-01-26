@@ -28,6 +28,8 @@ app.get("/api/articles/:article_id/comments",getCommentsArticle)
       //  -----    9    ------
 app.get("/api/users",getUsers)
 
+       //  -----    4    ------
+app.get("/api/articles",getArticles);
 
 
 // ==================   POST   ==================
