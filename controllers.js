@@ -15,22 +15,35 @@ const getTopics = (req, res) => {
   });
 };
 // TASK 4
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
 const getArticles = (req, res) => {
   return dataGetArticles(req, res).then((dataArticles) => {
     res.status(200).send({ articles: dataArticles });
   });
 };
-// TASK 5 && 11
-const getArticleById = (req, res) => {
-  const articleId = req.params.article_id;
 
-  return dataGetArticleById(articleId).then((article) => {
-    return res.status(200).send({ articleId: article });
-  });
-};
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+// TASK 5 && 11
+const getArticleById = (req, res, next) => {
+ 
+  const articleId = parseInt(req.params.article_id);
+  // if(articleId == 123123){
+  //   return next({code : 123 , msg : "WECH ROUYA ERROR"})
+  // }
+
+  if(articleId == NaN){
+    return next({code : 400 , msg : "400, invalid ID"})
+  }  
+  return dataGetArticleById(articleId).then((article) => {    
+    res.status(200).send({ articleId: article })
+    })
+    .catch((err)=>{
+       console.log("======= CONTROLLER =======",err);
+       next(err)
+       });
+  }
+ 
 // TASK 6
 const getCommentsArticle = (req, res) => {
   const articlesId = req.params.article_id;

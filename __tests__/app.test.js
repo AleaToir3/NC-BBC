@@ -41,12 +41,20 @@ describe("Task-3 GET:/api/topics", () => {
   });
 });
 
-//🚨🚨🚨🚨
 //  -----    4 - 10    ------
 describe("Task-4 GET:/api/articles", () => {
   test("respons with status 200", () => {
     return request(app).get("/api/articles").expect(200);
-  });  
+  });
+  test("Should return un array of objects greather than 0", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((res) => {
+        const articles = res.body.articles.length;
+        expect(articles).toBeGreaterThan(0);
+      });
+  });
   test(`An article should have the follow property:
           - propertyaurhot,
           - title,
@@ -88,12 +96,20 @@ describe("Task-4 GET:/api/articles", () => {
 
         expect(articles.length > 0).toBe(true);
         expect(articles[0].article_id).toBe(12);
-        expect(articles[articles.length-1].article_id).toBe(1);
+        expect(articles[articles.length - 1].article_id).toBe(1);
       });
   });
+
+  test("Invalide Id ", () => {
+    return request(app).get("/api/articles?sort_by=bananaxD").expect(400);
+  });
 });
+
 //  -----    5  && 11   ------
-describe("Task-5 && 11 GET:/api/articles/id", ()=>{
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+describe("Task-5 && 11 GET:/api/articles/id", () => {
   test("responds with status 200", () => {
     return request(app).get("/api/articles/3").expect(200);
   });
@@ -105,9 +121,7 @@ describe("Task-5 && 11 GET:/api/articles/id", ()=>{
         const article = res.body.articleId;
         expect(article).not.toHaveLength(0);
       });
-
   });
-})
   test(`Each comments should have :
           - author
           - title
@@ -139,7 +153,32 @@ describe("Task-5 && 11 GET:/api/articles/id", ()=>{
         });
       });
   });
-
+  test("Should respond with the correct article which matches article_id",() => {
+    request(app)
+      .get("/api/articles/1")
+      .then((res) => {
+        const article = res.body.articleId;
+        expect(article[0].article_id).toBe(1);
+      });
+  })
+  test("Status 400, invalid ID, e.g. string of Sangoku'",() => {
+    return request(app)
+    .get("/api/articles/Sangoku")
+    .expect(400)
+     .then((res) => {
+       expect(res.error.text).toBe("400, invalid ID")     	
+     })
+  })
+  test("Status 404, NON existent ID !!",() => {
+    return request(app)
+    .get("/api/articles/103300")
+    .expect(404)
+     .then((res) => {
+      // console.log("RES DANS TEST ",res.error)
+       expect(res.error.text).toBe("404, NON existent ID")     	
+     })
+  })
+});
 
 //  -----    6    ------
 describe("Task-6 GET:/api/articles/id_article/comments", () => {
@@ -176,9 +215,7 @@ describe("Task-6 GET:/api/articles/id_article/comments", () => {
     return request(app)
       .get("/api/articles/1/comments")
       .then((res) => {
-         
         const checkPropertyCommentsByArticles = res.body.commentsByArticle;
-
 
         checkPropertyCommentsByArticles.forEach((comment) => {
           expect(comment).toHaveProperty("comment_id");
@@ -234,26 +271,22 @@ describe("Task-8 /api/articles/:article_id", () => {
   });
 });
 //  -----    9    ------
-describe("Task-9 /api/users",()=>{
-  test("return status 200",()=>{
-      return request(app).get("/api/users").expect(200)
-  })
-  test("return all users",()=>{
-
+describe("Task-9 /api/users", () => {
+  test("return status 200", () => {
+    return request(app).get("/api/users").expect(200);
+  });
+  test("return all users", () => {
     return request(app)
-    .get("/api/users")
-    .then((res) => {
-      const users = res.body.users;
-      expect(users).not.toHaveLength(0);
-      expect(users[0]).toHaveProperty("username", expect.any(String));
-      expect(users[0]).toHaveProperty("name", expect.any(String));
-      expect(users[0]).toHaveProperty("avatar_url", expect.any(String));
-    });
-  })    
-})
-
-
+      .get("/api/users")
+      .then((res) => {
+        const users = res.body.users;
+        expect(users).not.toHaveLength(0);
+        expect(users[0]).toHaveProperty("username", expect.any(String));
+        expect(users[0]).toHaveProperty("name", expect.any(String));
+        expect(users[0]).toHaveProperty("avatar_url", expect.any(String));
+      });
+  });
+});
 
 // //  -----   12    ------
 // //  -----   13    ------
-
