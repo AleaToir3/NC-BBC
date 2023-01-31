@@ -7,12 +7,20 @@ const dataGetTopics = () =>{
 }
 
 const dataGetArticles = (req,res) => {
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
    const column = ["article_id","title","topic","author","body","created_at","votes","article_img_url"];
+   
    let querySortBy = req.query.sort_by
    let queryOrderBy = req.query.order;
+   if(querySortBy){
+      if(querySortBy.length > 0 && column.filter((e)=> e == querySortBy).length == 0){
+         return Promise.reject({code : "Q400" , msg : "Invalid Query"})
+      }
+   }
 
    querySortBy = column.filter((e)=> e == querySortBy)
-
    querySortBy.length == 0 ? querySortBy = "created_at" : querySortBy = querySortBy[0]
    queryOrderBy == "ASC" ? queryOrderBy = "ASC" : queryOrderBy = "DESC"
 
@@ -28,9 +36,7 @@ const dataGetArticles = (req,res) => {
       })
 }
 
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+
 const dataGetArticleById = (articleId) => {
  
    const query = `SELECT articles.*,SUM(comments.article_id) comment_count

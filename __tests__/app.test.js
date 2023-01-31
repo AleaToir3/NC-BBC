@@ -99,16 +99,23 @@ describe("Task-4 GET:/api/articles", () => {
         expect(articles[articles.length - 1].article_id).toBe(1);
       });
   });
+  
+  //🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+  test("Invalid Query request should return 400", () => {
+    return request(app)
+      .get("/api/articles?sort_by=Vegeta&order=boboo").then((res) => {
+        expect(res.status).toBe(400);
+        expect(res.error.text).toBe("400, invalid ID")     	
+      });
 
-  test("Invalide Id ", () => {
-    return request(app).get("/api/articles?sort_by=bananaxD").expect(400);
-  });
+    
+  })
 });
 
 //  -----    5  && 11   ------
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+
 describe("Task-5 && 11 GET:/api/articles/id", () => {
   test("responds with status 200", () => {
     return request(app).get("/api/articles/3").expect(200);
@@ -154,7 +161,7 @@ describe("Task-5 && 11 GET:/api/articles/id", () => {
       });
   });
   test("Should respond with the correct article which matches article_id",() => {
-    request(app)
+    return request(app)
       .get("/api/articles/1")
       .then((res) => {
         const article = res.body.articleId;
@@ -174,7 +181,6 @@ describe("Task-5 && 11 GET:/api/articles/id", () => {
     .get("/api/articles/103300")
     .expect(404)
      .then((res) => {
-      // console.log("RES DANS TEST ",res.error)
        expect(res.error.text).toBe("404, NON existent ID")     	
      })
   })
