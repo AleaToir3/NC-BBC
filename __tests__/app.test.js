@@ -144,19 +144,20 @@ describe("Task-5 && 11 GET:/api/articles/id", () => {
       .get("/api/articles/1")
       .then((res) => {
         const article = res.body.articleId;
+        console.log("🚨🔥🔥🔥🔥🔥🔥🔥  article", article);
+
 
         expect(article.length > 0).toBe(true);
         article.forEach((comments) => {
-          expect(comments).toHaveProperty("author");
-          expect(comments).toHaveProperty("title");
-          expect(comments).toHaveProperty("article_id");
-          expect(comments).toHaveProperty("body");
-          expect(comments).toHaveProperty("topic");
-          expect(comments).toHaveProperty("article_id");
-          expect(comments).toHaveProperty("created_at");
-          expect(comments).toHaveProperty("votes");
-          expect(comments).toHaveProperty("article_img_url");
-          expect(comments).toHaveProperty("comment_count");
+          expect(comments).toHaveProperty("author","butter_bridge");
+          expect(comments).toHaveProperty("title", "Living in the shadow of a great man" );
+          expect(comments).toHaveProperty("article_id",1);
+          expect(comments).toHaveProperty("body",'I find this existence challenging');
+          expect(comments).toHaveProperty("topic",'mitch');
+          expect(comments).toHaveProperty("created_at",'2020-07-09T20:11:00.000Z');
+          expect(comments).toHaveProperty("votes",100);
+          expect(comments).toHaveProperty("article_img_url","https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700");
+          expect(comments).toHaveProperty("comment_count",'11');          
         });
       });
   });
@@ -184,6 +185,7 @@ describe("Task-5 && 11 GET:/api/articles/id", () => {
        expect(res.error.text).toBe("404, NON existent ID")     	
      })
   })
+  
 });
 
 //  -----    6    ------
