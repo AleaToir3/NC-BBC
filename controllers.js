@@ -52,9 +52,7 @@ let articleId;
  
 // TASK 6
 const getCommentsArticle = (req, res, next) => {
-  //🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+
   const articlesId = req.params.article_id;
   
   return dataCommentsByArticleId(articlesId).then((resComments) => {
@@ -68,6 +66,9 @@ const getCommentsArticle = (req, res, next) => {
 
 // TASK 7
 const postCommentByArticleId = (req, res, next) => {
+    //🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
   const postCommentId = {
     article_id: req.params.article_id,
     body: req.body.body,
@@ -75,8 +76,10 @@ const postCommentByArticleId = (req, res, next) => {
   };
 
   return dataPostCommentByArticleId(postCommentId).then((resPost) => {    
-    return res.status(201).send({ postCommentById: resPost });
-  });
+    return res.status(201).send({ postCommentById: resPost })
+  }).catch((err)=>{
+    next(err)
+    });
 };
 
 // TASK 8

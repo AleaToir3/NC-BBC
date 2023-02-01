@@ -256,6 +256,7 @@ describe("Task-6 GET:/api/articles/id_article/comments", () => {
       })    
   })
 });
+
 //  -----    7    ------
 const comment = { body: "SUPERMAN CAN'T FLY I SEE HIM !", author: "lurker" };
 
@@ -283,7 +284,9 @@ describe("Task-7 POST:/api/articles/:article_id/comments", () => {
         expect(res.body.postCommentById[0]).toHaveProperty("author", "lurker");
       });
   });
-});
+  test(`Status 400, invalid ID, e.g. string of "Super Saiyan" ` ,() => {
+  });
+})
 
 //  -----    8    ------
 
