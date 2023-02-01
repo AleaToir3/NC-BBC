@@ -98,11 +98,8 @@ describe("Task-4 GET:/api/articles", () => {
         expect(articles[0].article_id).toBe(12);
         expect(articles[articles.length - 1].article_id).toBe(1);
       });
-  });
-  
-  //🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+  });  
+
   test("Invalid Query request should return 400", () => {
     return request(app)
       .get("/api/articles?sort_by=Vegeta&order=boboo").then((res) => {
@@ -115,7 +112,6 @@ describe("Task-4 GET:/api/articles", () => {
 });
 
 //  -----    5  && 11   ------
-
 describe("Task-5 && 11 GET:/api/articles/id", () => {
   test("responds with status 200", () => {
     return request(app).get("/api/articles/3").expect(200);
@@ -144,9 +140,6 @@ describe("Task-5 && 11 GET:/api/articles/id", () => {
       .get("/api/articles/1")
       .then((res) => {
         const article = res.body.articleId;
-        console.log("🚨🔥🔥🔥🔥🔥🔥🔥  article", article);
-
-
         expect(article.length > 0).toBe(true);
         article.forEach((comments) => {
           expect(comments).toHaveProperty("author","butter_bridge");
@@ -199,6 +192,8 @@ describe("Task-6 GET:/api/articles/id_article/comments", () => {
       .get("/api/articles/1/comments")
       .expect(200)
       .then((res) => {
+        console.log("🚨🔥  file: app.test.js:195  .then  res", res);
+
         const commentsByArticle = res.body.commentsByArticle;
         expect(Array.isArray(commentsByArticle)).toBe(true);
       });
@@ -210,7 +205,7 @@ describe("Task-6 GET:/api/articles/id_article/comments", () => {
       .then((res) => {
         const commentsByArticle = res.body.commentsByArticle.length;
         expect(commentsByArticle).toBeGreaterThan(0);
-      });
+      });      
   });
 
   test(`Each property should have :
@@ -235,6 +230,31 @@ describe("Task-6 GET:/api/articles/id_article/comments", () => {
         });
       });
   });
+  test("should response with an array of comment objects for the specified article", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .then((res) => {
+        const commentsByArticleId = res.body.commentsByArticleId;
+        expect(Array.isArray(res.body.commentsByArticle)).toBe(true);
+        expect(typeof (res.body.commentsByArticle[0])).toBe('object');
+      });
+  });
+    test(`Status 400, invalid ID, e.g. string of "Super Saiyan" ` ,() => {
+    return request(app)
+    .get("/api/articles/SuperSaiyan/comments")
+    .expect(400)
+      .then((res) => {
+        expect(res.error.text).toBe("400, invalid ID")
+      })    
+  })
+  test(`Status 404, NON existent ID !!`,() => {
+    return request(app)
+    .get("/api/articles/666/comments")
+    .expect(404)
+      .then((res) => {
+        expect(res.error.text).toBe("404, NON existent ID")
+      })    
+  })
 });
 //  -----    7    ------
 const comment = { body: "SUPERMAN CAN'T FLY I SEE HIM !", author: "lurker" };
@@ -253,16 +273,14 @@ describe("Task-7 POST:/api/articles/:article_id/comments", () => {
     return request(app)
       .post("/api/articles/1/comments")
       .send(comment)
-      .expect(201)
+      .expect(201)     
       .then((res) => {
-        return db.query(`SELECT * FROM comments WHERE comment_id = 19`);
-      })
-      .then((res) => {
-        expect(res.rows[0]).toHaveProperty(
+        console.log("======",res.body.postCommentById[0])
+        expect(res.body.postCommentById[0]).toHaveProperty(
           "body",
           "SUPERMAN CAN'T FLY I SEE HIM !"
         );
-        expect(res.rows[0]).toHaveProperty("author", "lurker");
+        expect(res.body.postCommentById[0]).toHaveProperty("author", "lurker");
       });
   });
 });

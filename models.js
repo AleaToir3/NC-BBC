@@ -6,14 +6,10 @@ const dataGetTopics = () =>{
  })
 }
 
-const dataGetArticles = (req,res) => {
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+const dataGetArticles = (queryOrderBy,querySortBy) => {
    const column = ["article_id","title","topic","author","body","created_at","votes","article_img_url"];
    
-   let querySortBy = req.query.sort_by
-   let queryOrderBy = req.query.order;
+ 
    if(querySortBy){
       if(querySortBy.length > 0 && column.filter((e)=> e == querySortBy).length == 0){
          return Promise.reject({code : "Q400" , msg : "Invalid Query"})
@@ -21,8 +17,8 @@ const dataGetArticles = (req,res) => {
    }
 
    querySortBy = column.filter((e)=> e == querySortBy)
-   querySortBy.length == 0 ? querySortBy = "created_at" : querySortBy = querySortBy[0]
-   queryOrderBy == "ASC" ? queryOrderBy = "ASC" : queryOrderBy = "DESC"
+   querySortBy.length === 0 ? querySortBy = "created_at" : querySortBy = querySortBy[0]
+   queryOrderBy === "ASC" ? queryOrderBy = "ASC" : queryOrderBy = "DESC"
 
    const query =  `SELECT articles.*,
             COUNT(comments.article_id) AS comment_count
@@ -54,10 +50,26 @@ const dataGetArticleById = (articleId) => {
       
 }
 
-const dataCommentsByArticleId = (articleId)=>{
-   const query = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
+const dataCommentsByArticleId = (articleId) => {  
+   
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+
+if (isNaN(articleId)) {
+   console.log("C PA UN CHIFFRE !!!");
+   return Promise.reject({code: "Q400",msg: "400, invalid ID"});
+ }
+
+   const query = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC ;`;
    return db.query(query,[articleId]).then((commentsByArticle)=>{
-      return commentsByArticle.rows
+console.log("WECHHHHHHHHHHHHh" ,commentsByArticle);
+     
+      if(commentsByArticle.rows.length == 0){
+         return Promise.reject({code : 404 , msg : "404, NON existent ID"})
+      }else{
+         return commentsByArticle.rows
+      } 
    });
 }
 
@@ -67,7 +79,7 @@ const dataPostCommentByArticleId = (params) => {
                   RETURNING *;                  
                   `
    return db.query(query,[params.body,params.article_id,params.author]).then((res) => {      
-      	return res.rows
+      return res.rows
    })
 }
 

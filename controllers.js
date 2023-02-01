@@ -15,11 +15,12 @@ const getTopics = (req, res) => {
   });
 };
 // TASK 4
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
-//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
 const getArticles = (req, res,next) => {
-  return dataGetArticles(req, res).then((dataArticles) => {
+  
+  let querySortBy = req.query.sort_by
+  let queryOrderBy = req.query.order;
+  
+  return dataGetArticles(queryOrderBy,querySortBy).then((dataArticles) => {
     res.status(200).send({ articles: dataArticles });
   }).catch((err)=>{
        next(err)
@@ -29,13 +30,16 @@ const getArticles = (req, res,next) => {
 
 // TASK 5 && 11
 const getArticleById = (req, res, next) => {
- 
-  const articleId = parseInt(req.params.article_id);
-  // if(articleId == 123123){
-  //   return next({code : 123 , msg : "WECH ROUYA ERROR"})
-  // }
+let articleId;
+  if(!isNaN(req)){
+    articleId = req
+  }else{
+    articleId = parseInt(req.params.article_id);
+    console.log("🚨🔥 c PAS!!!! un number", articleId);
 
+  } 
   if(articleId == NaN){
+    console.log(":poo:");
     return next({code : 400 , msg : "400, invalid ID"})
   }  
   return dataGetArticleById(articleId).then((article) => {    
@@ -47,22 +51,30 @@ const getArticleById = (req, res, next) => {
   }
  
 // TASK 6
-const getCommentsArticle = (req, res) => {
+const getCommentsArticle = (req, res, next) => {
+  //🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
+//🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸🥸
   const articlesId = req.params.article_id;
+  
   return dataCommentsByArticleId(articlesId).then((resComments) => {
-    return res.status(200).send({ commentsByArticle: resComments });
-  });
+    console.log("🚨🔥  file: controllers.js:58  returndataCommentsByArticleId  resComments", resComments);
+    
+    res.status(200).send({ commentsByArticle: resComments })
+  }).catch((err)=>{
+    next(err)
+    });
 };
 
 // TASK 7
-const postCommentByArticleId = (req, res) => {
+const postCommentByArticleId = (req, res, next) => {
   const postCommentId = {
     article_id: req.params.article_id,
     body: req.body.body,
     author: req.body.author,
   };
 
-  return dataPostCommentByArticleId(postCommentId).then((resPost) => {
+  return dataPostCommentByArticleId(postCommentId).then((resPost) => {    
     return res.status(201).send({ postCommentById: resPost });
   });
 };
